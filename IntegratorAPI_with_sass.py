@@ -73,7 +73,11 @@ class SASSubsystem():
         last_layer = model2.predict(seq)
         
         #getting class prediction
-        prediction = model.predict(seq)
+        num_classes = len(model.layers[8].get_weights()[1])     
+        model2.add(Dense(num_classes, weights = model.layers[8].get_weights()))
+        model2.add(Activation('softmax'))
+        #get class prediction
+        prediction = model2.predict(seq)
 #         print("Softmax predictions: ",np.argmax(prediction[0]),"\n")
         return (np.argmax(prediction[0]),last_layer)
 
